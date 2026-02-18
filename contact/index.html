@@ -192,7 +192,10 @@
 <div class="form-wrapper reveal">
 <h2>Request Your Free Estimate</h2>
 <p>Tell us about your property and we'll get back to you within 24 hours with a custom quote.</p>
-<form id="contactForm" action="https://formspree.io/Dan@nelliganslawn.com" method="POST">
+<form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+<input type="hidden" name="access_key" value="8654d057-8929-48f2-83f4-a7746fde3bbc">
+<input type="hidden" name="subject" value="New Estimate Request — Nelligans Lawn & Landscape">
+<input type="hidden" name="from_name" value="Nelligans Website">
 <div class="form-row">
 <div class="form-group">
 <label for="name">Full Name *</label>
@@ -377,7 +380,7 @@ if(!wasActive)item.classList.add('active');
 });
 });
 
-// Form submission via Formspree
+// Form submission via Web3Forms
 const form=document.getElementById('contactForm');
 if(form){
 form.addEventListener('submit',function(e){
@@ -386,9 +389,10 @@ const btn=form.querySelector('button[type="submit"]');
 const data=new FormData(form);
 btn.textContent='Sending...';
 btn.disabled=true;
-fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}})
-.then(r=>{
-if(r.ok){
+fetch('https://api.web3forms.com/submit',{method:'POST',body:data})
+.then(r=>r.json())
+.then(data=>{
+if(data.success){
 btn.textContent='Message Sent!';
 btn.style.background='var(--brand-deep)';
 form.reset();
