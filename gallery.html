@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Project Gallery — Nelligans Lawn & Landscape</title>
+<meta name="description" content="Browse our portfolio of landscaping projects across Southeast Michigan — from landscape design and rock walls to seasonal maintenance and snow management.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* PAGE HERO */
+.page-hero{background:var(--charcoal);padding:160px 0 100px;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(0,130,101,0.15),transparent 70%)}
+.page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top,var(--cream),transparent)}
+.page-hero .container{position:relative;z-index:2;text-align:center}
+.page-hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:600;color:var(--brand-light);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
+.page-hero-tag::before{content:'';width:24px;height:2px;background:var(--brand-light)}
+.page-hero-tag::after{content:'';width:24px;height:2px;background:var(--brand-light)}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--white);line-height:1.15;margin-bottom:20px}
+.page-hero p{font-size:1.15rem;color:rgba(255,253,248,0.7);max-width:560px;margin:0 auto;line-height:1.8}
+
+/* FILTER TABS */
+.filter-section{background:var(--cream);padding:48px 0 0;text-align:center}
+.filter-tabs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.filter-btn{background:var(--white);border:1px solid rgba(0,40,30,0.1);color:var(--text);padding:10px 24px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:all 0.3s}
+.filter-btn:hover{border-color:var(--brand);color:var(--brand)}
+.filter-btn.active{background:var(--brand);color:var(--white);border-color:var(--brand)}
+
+/* GALLERY GRID */
+.gallery-section{background:var(--cream);padding:48px 0 120px}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.gallery-card{border-radius:var(--radius-lg);overflow:hidden;position:relative;cursor:pointer;box-shadow:var(--shadow-sm);transition:all 0.4s ease}
+.gallery-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.gallery-card:nth-child(1){aspect-ratio:3/2}
+.gallery-card:nth-child(2){aspect-ratio:1/1}
+.gallery-card:nth-child(3){aspect-ratio:3/2}
+.gallery-card:nth-child(4){aspect-ratio:1/1}
+.gallery-card:nth-child(5){aspect-ratio:4/5}
+.gallery-card:nth-child(6){aspect-ratio:3/2}
+.gallery-card:nth-child(7){aspect-ratio:3/2}
+.gallery-card:nth-child(8){aspect-ratio:1/1}
+.gallery-card:nth-child(9){aspect-ratio:4/5}
+.gallery-card:nth-child(10){aspect-ratio:4/5}
+.gallery-card:nth-child(11){aspect-ratio:3/2}
+.gallery-card:nth-child(12){aspect-ratio:1/1}
+.gallery-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;font-size:0.85rem;color:rgba(255,255,255,0.6)}
+.gallery-placeholder svg{width:32px;height:32px;opacity:0.4}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,42,38,0.9),transparent 60%);opacity:0;transition:opacity 0.4s;display:flex;align-items:flex-end;padding:24px}
+.gallery-card:hover .gallery-overlay{opacity:1}
+.overlay-content{color:var(--white)}
+.overlay-tag{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--brand-light);font-weight:600;margin-bottom:4px}
+.overlay-title{font-family:'Playfair Display',serif;font-size:1.1rem}
+
+/* BEFORE AFTER */
+.before-after{background:var(--sand-pale)}
+.ba-header{text-align:center;margin-bottom:72px}
+.ba-header .section-tag{display:inline-flex;align-items:center;gap:12px;font-size:0.78rem;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.ba-header .section-tag::before{content:'';width:24px;height:2px;background:var(--brand)}
+.ba-header h2{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--charcoal);margin-bottom:16px}
+.ba-header p{color:var(--text-light);font-size:1.1rem;max-width:560px;margin:0 auto}
+.ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.ba-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.ba-images{display:grid;grid-template-columns:1fr 1fr}
+.ba-side{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-size:0.8rem;position:relative}
+.ba-side.before{background:linear-gradient(135deg,#c9c0b0,#b5a990)}
+.ba-side.after{background:linear-gradient(135deg,var(--brand-pale),#a8dbc9)}
+.ba-label{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.5);color:white;padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.ba-info{padding:20px;text-align:center}
+.ba-info h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--charcoal);margin-bottom:4px}
+.ba-info p{color:var(--text-light);font-size:0.85rem}
+
+/* TESTIMONIAL STRIP */
+.testimonial-strip{background:var(--brand);padding:80px 0;text-align:center;position:relative;overflow:hidden}
+.testimonial-strip::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--brand),var(--brand-deep))}
+.testimonial-strip .container{position:relative;z-index:2}
+.testimonial-quote{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--white);font-style:italic;max-width:700px;margin:0 auto 24px;line-height:1.6}
+.testimonial-author{color:rgba(255,255,255,0.8);font-size:0.9rem}
+.testimonial-author strong{color:var(--white)}
+
+/* BOTTOM CTA */
+.bottom-cta{background:var(--cream);text-align:center}
+.bottom-cta h2{font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--charcoal);margin-bottom:16px}
+.bottom-cta p{color:var(--text-light);font-size:1.1rem;max-width:560px;margin:0 auto 36px}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--white);padding:16px 36px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:all 0.3s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--brand-deep);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--brand);padding:16px 36px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:all 0.3s;border:2px solid var(--brand)}
+.btn-secondary:hover{background:var(--brand);color:var(--white);transform:translateY(-2px)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+.gallery-grid{grid-template-columns:repeat(2,1fr)}
+.ba-grid{grid-template-columns:repeat(2,1fr)}
+.page-hero h1{font-size:2.8rem}
+}
+@media(max-width:768px){
+.page-hero{padding:130px 0 80px}
+.page-hero h1{font-size:2.2rem}
+.gallery-grid{grid-template-columns:repeat(2,1fr)}
+.ba-grid{grid-template-columns:1fr}
+.testimonial-quote{font-size:1.3rem}
+.bottom-cta h2{font-size:2.2rem}
+}
+@media(max-width:480px){
+.page-hero h1{font-size:1.8rem}
+.gallery-grid{grid-template-columns:1fr}
+.filter-tabs{gap:8px}
+.filter-btn{padding:8px 18px;font-size:0.82rem}
+.bottom-cta h2{font-size:1.8rem}
+.cta-buttons{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="nav">
+<div class="container nav-container">
+<div class="nav-logo"><a href="index.html" style="text-decoration:none;display:flex;align-items:center">
+<svg class="logo-icon" viewBox="0 0 48 48" style="width:36px;height:36px;margin-right:10px;color:var(--brand)"><path d="M24 2l6.5 18h19l-15.5 11.5 6.5 18-15.5-11.5-15.5 11.5 6.5-18-15.5-11.5h19z" fill="currentColor"/></svg>
+<span style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--charcoal)">Nelligans</span></a></div>
+<button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+<ul class="nav-links" id="navLinks">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="gallery.html" style="color:var(--brand)">Gallery</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="tel:8105227716" class="nav-cta">Call Us</a></li>
+</ul>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+<div class="container">
+<div class="page-hero-tag reveal">Portfolio</div>
+<h1 class="reveal">Our Work Speaks for Itself</h1>
+<p class="reveal">Browse real projects from across Southeast Michigan. Every property tells a story of craftsmanship, attention to detail, and transformation.</p>
+</div>
+</section>
+
+<!-- FILTER -->
+<section class="filter-section">
+<div class="container">
+<div class="filter-tabs">
+<button class="filter-btn active" data-filter="all">All Projects</button>
+<button class="filter-btn" data-filter="design">Landscape Design</button>
+<button class="filter-btn" data-filter="maintenance">Property Maintenance</button>
+<button class="filter-btn" data-filter="walls">Rock Walls</button>
+<button class="filter-btn" data-filter="snow">Snow Management</button>
+</div>
+</div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+<div class="container">
+<div class="gallery-grid">
+
+<div class="gallery-card reveal" data-category="design">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#2d5a3f,#4a8c6a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Landscape Design</div><div class="overlay-title">Full Front Yard Redesign</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-1" data-category="walls">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#7a6b5a,#a39585)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Rock Walls</div><div class="overlay-title">Natural Stone Retaining Wall</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-2" data-category="maintenance">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#3a7a4f,#5aad72)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Maintenance</div><div class="overlay-title">Weekly Lawn Care Program</div></div></div>
+</div>
+
+<div class="gallery-card reveal" data-category="design">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#1e4a35,#3a7a5a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Landscape Design</div><div class="overlay-title">Backyard Patio & Garden</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-1" data-category="snow">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#8a9aaa,#b5c5d5)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Snow Management</div><div class="overlay-title">Commercial Lot Clearing</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-2" data-category="walls">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#8a7a6a,#6a5a4a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Rock Walls</div><div class="overlay-title">Terraced Garden Beds</div></div></div>
+</div>
+
+<div class="gallery-card reveal" data-category="maintenance">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#4a8a5a,#6aaa7a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Maintenance</div><div class="overlay-title">Spring Cleanup & Mulching</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-1" data-category="design">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#2a5a40,#4a7a60)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Landscape Design</div><div class="overlay-title">Walkway & Planting Design</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-2" data-category="snow">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#9aaaba,#c5d5e5)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Snow Management</div><div class="overlay-title">Residential Driveway Service</div></div></div>
+</div>
+
+<div class="gallery-card reveal" data-category="walls">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#6a5a4a,#9a8a7a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Rock Walls</div><div class="overlay-title">Boulder Feature Installation</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-1" data-category="design">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#3a6a4a,#5a9a6a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Landscape Design</div><div class="overlay-title">Complete Property Overhaul</div></div></div>
+</div>
+
+<div class="gallery-card reveal reveal-delay-2" data-category="maintenance">
+<div class="gallery-placeholder" style="background:linear-gradient(135deg,#5a9a6a,#7aba8a)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+Image Coming Soon
+</div>
+<div class="gallery-overlay"><div class="overlay-content"><div class="overlay-tag">Maintenance</div><div class="overlay-title">Fall Cleanup & Winterizing</div></div></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- BEFORE & AFTER -->
+<section class="before-after section-pad">
+<div class="container">
+<div class="ba-header reveal">
+<div class="section-tag">Transformations</div>
+<h2>Before & After</h2>
+<p>See the dramatic difference professional landscaping makes. These real transformations showcase what's possible for your property.</p>
+</div>
+<div class="ba-grid">
+<div class="ba-card reveal">
+<div class="ba-images">
+<div class="ba-side before"><div class="ba-label">Before</div>Photo Coming Soon</div>
+<div class="ba-side after"><div class="ba-label">After</div>Photo Coming Soon</div>
+</div>
+<div class="ba-info"><h3>Front Yard Transformation</h3><p>Landscape Design — Residential</p></div>
+</div>
+<div class="ba-card reveal reveal-delay-1">
+<div class="ba-images">
+<div class="ba-side before"><div class="ba-label">Before</div>Photo Coming Soon</div>
+<div class="ba-side after"><div class="ba-label">After</div>Photo Coming Soon</div>
+</div>
+<div class="ba-info"><h3>Retaining Wall Project</h3><p>Rock Walls — Erosion Control</p></div>
+</div>
+<div class="ba-card reveal reveal-delay-2">
+<div class="ba-images">
+<div class="ba-side before"><div class="ba-label">Before</div>Photo Coming Soon</div>
+<div class="ba-side after"><div class="ba-label">After</div>Photo Coming Soon</div>
+</div>
+<div class="ba-info"><h3>Backyard Redesign</h3><p>Landscape Design — Patio & Planting</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-strip">
+<div class="container reveal">
+<div class="testimonial-quote">"Nelligans completely transformed our backyard. The attention to detail was incredible — they didn't leave until everything was perfect. We get compliments from our neighbors every week."</div>
+<div class="testimonial-author">— <strong>Satisfied Homeowner</strong>, Southeast Michigan</div>
+</div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta section-pad">
+<div class="container reveal">
+<h2>Love What You See?</h2>
+<p>Let's create something beautiful for your property. Every project starts with a free, no-obligation estimate.</p>
+<div class="cta-buttons">
+<a href="tel:8105227716" class="btn-primary">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+(810) 522-7716
+</a>
+<a href="contact.html" class="btn-secondary">Request Free Estimate</a>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-section">
+<div class="footer-logo" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:16px">Nelligans</div>
+<p class="footer-desc">Delivering top-tier landscaping, maintenance, and snow management services across Southeast Michigan.</p>
+<div class="footer-social">
+<a href="https://www.facebook.com/Nelliganslawnandlandscape" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+<a href="tel:8105227716" aria-label="Phone"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+</div>
+</div>
+<div>
+<h4>Services</h4>
+<ul>
+<li><a href="services.html#maintenance">Property Maintenance</a></li>
+<li><a href="services.html#design">Landscape Design</a></li>
+<li><a href="services.html#walls">Rock Walls</a></li>
+<li><a href="services.html#snow">Snow Management</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="about.html">About Us</a></li>
+<li><a href="gallery.html">Our Work</a></li>
+<li><a href="https://www.facebook.com/Nelliganslawnandlandscape/reviews" target="_blank" rel="noopener">Reviews</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4>Get Started</h4>
+<ul>
+<li><a href="tel:8105227716">(810) 522-7716</a></li>
+<li><a href="contact.html">Free Estimate</a></li>
+<li><a href="contact.html">Apply Now</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2025 Nelligans Lawn and Landscape LLC. All rights reserved.</span>
+<span>Website by <a href="https://modernapexstrategies.com" target="_blank" rel="noopener">Modern Apex Strategies</a></span>
+</div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks');
+navToggle.addEventListener('click',()=>{navToggle.classList.toggle('active');navLinks.classList.toggle('open')});
+navLinks.querySelectorAll('a').forEach(l=>l.addEventListener('click',()=>{navToggle.classList.remove('active');navLinks.classList.remove('open')}));
+const observer=new IntersectionObserver(e=>{e.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Gallery filter
+const filterBtns=document.querySelectorAll('.filter-btn');
+const galleryItems=document.querySelectorAll('.gallery-card');
+filterBtns.forEach(btn=>{
+btn.addEventListener('click',()=>{
+filterBtns.forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+const filter=btn.dataset.filter;
+galleryItems.forEach(item=>{
+if(filter==='all'||item.dataset.category===filter){
+item.style.display='block';
+item.style.animation='fadeUp 0.5s ease forwards';
+}else{
+item.style.display='none';
+}
+});
+});
+});
+</script>
+</body>
+</html>
